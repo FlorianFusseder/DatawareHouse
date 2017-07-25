@@ -471,7 +471,8 @@ order by gesamtVerkauf asc;
 -- Take into account: the original relation DDate covers the sales days only! Days, where noth-ing has been sold, are not included. We are interested in a list of all days,
 -- so please use the relation DDate from exercise 8.
 select coalesce(sum(facttable.QUANTITY), 0) as sold, tempdate.day, tempdate.monthinyear, artid
-from  facttable join (select * from dproduct where prodgrid = 100) using (psid)
+from  facttable 
+      right join (select * from dproduct where prodgrid = 100) using (psid)
       PARTITION BY  (artid)
       right join (select * from ddate where ddate.monthinyear = '11-2014') tempdate using (dsid) 
 group by tempdate.day, tempdate.monthinyear, artid
